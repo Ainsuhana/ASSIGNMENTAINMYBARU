@@ -40,7 +40,7 @@ function verifyToken(req, res, next) {
 
 
 // Connect to MongoDB
-MongoClient.connect(url, { useUnifiedTopology: true })
+MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
   .then((client) => {
     console.log('Connected to MongoDB');
     const db = client.db(dbName);
