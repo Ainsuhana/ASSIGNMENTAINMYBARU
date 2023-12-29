@@ -39,13 +39,52 @@ function verifyToken(req, res, next) {
 }
 
 
+// swagger middleware
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'AINMY VMS API',
+            version: '1.0.0',
+        },
+    },
+    apis: ['./index.js'],
+};
+
+
+// swagger docs
+const specs = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 // Connect to MongoDB
 MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
   .then((client) => {
     console.log('Connected to MongoDB');
     const db = client.db(dbName);
 
-
+    /**
+     * @swagger
+     * /logout:
+     *   post:
+     *     description: Logout from the system
+     *     security:
+     *       - BearerAuth: []
+     *     responses:
+     *       200:
+     *         description: Logout successful
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *       401:
+     *         description: Unauthorized, invalid token
+     *       500:
+     *         description: Internal Server Error
+     */
     // Logout for user (requires a valid JWT)
     app.post('/logout', verifyToken, async (req, res) => {
       try {
@@ -59,6 +98,26 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
     });
 
 
+     /**
+     * @swagger
+     * /login:
+     *   post:
+     *     description: Login to the system
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               username:
+     *                 type: string
+     *               password:
+     *                 type: string
+     *     responses:
+     *       200:
+     *         description: Reply from the server
+     */
     // Login for user
     app.post('/login', async (req, res) => {
       try {
@@ -94,6 +153,51 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
     });
 
 
+/**
+ * @swagger
+ * /visitors:
+ *   post:
+ *     description: Create a new visitor
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               purpose:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Visitor created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Bad Request, invalid input data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized, invalid token
+ *       500:
+ *         description: Internal Server Error
+ */
 // Create a new visitor (requires a valid JWT)
 app.post('/visitors', verifyToken, async (req, res) => {
     try {
@@ -109,7 +213,56 @@ app.post('/visitors', verifyToken, async (req, res) => {
     }
   });
   
-
+  
+/**
+ * @swagger
+ * /register:
+ *   post:
+ *     description: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               address:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Bad Request, user already exists or invalid input data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ */
 // Register a new user
 app.post('/register', async (req, res) => {
     try {
@@ -138,7 +291,56 @@ app.post('/register', async (req, res) => {
   });
   
 
-
+/**
+ * @swagger
+ * /register-security:
+ *   post:
+ *     description: Register a new security personnel
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       201:
+ *         description: Security registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Bad Request, security personnel already exists or invalid input data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
 // Register a new security
 app.post('/register-security', async (req, res) => {
   try {
@@ -167,9 +369,53 @@ app.post('/register-security', async (req, res) => {
 });
 
 
-  
-    
-
+        /**
+         * @swagger
+         * /visitors/{name}/{email}/access:
+         *   get:
+         *     description: Retrieve access information for a visitor
+         *     parameters:
+         *       - name: name
+         *         in: path
+         *         description: Name of the visitor
+         *         required: true
+         *         schema:
+         *           type: string
+         *       - name: email
+         *         in: path
+         *         description: Email of the visitor
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: email
+         *     responses:
+         *       200:
+         *         description: Access information retrieved successfully
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 // Define the properties of the access information here
+         *       404:
+         *         description: Access information not found
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 message:
+         *                   type: string
+         *       500:
+         *         description: Internal Server Error
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 message:
+         *                   type: string
+         */
         // View access info for a visitor
         app.get('/visitors/:name/:email/access', async (req, res) => {
           try {
@@ -190,8 +436,30 @@ app.post('/register-security', async (req, res) => {
         });
 
 
-
- 
+        /**
+         * @swagger
+         * /visitors:
+         *   get:
+         *     description: Retrieve all visitors
+         *     responses:
+         *       200:
+         *         description: Visitors retrieved successfully
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: array
+         *               items:
+         *                 // Define the properties of a visitor here
+         *       500:
+         *         description: Internal Server Error
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 message:
+         *                   type: string
+         */
         // Retrieve all visitors
         app.get('/visitors', async (req, res) => {
           try {
@@ -206,6 +474,65 @@ app.post('/register-security', async (req, res) => {
         });
     
 
+        /**
+         * @swagger
+         * /visitors/{id}:
+         *   patch:
+         *     description: Update a visitor
+         *     security:
+         *       - BearerAuth: []
+         *     parameters:
+         *       - name: id
+         *         in: path
+         *         description: ID of the visitor to be updated
+         *         required: true
+         *         schema:
+         *           type: string
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               name:
+         *                 type: string
+         *               email:
+         *                 type: string
+         *                 format: email
+         *               purpose:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Visitor updated successfully
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 message:
+         *                   type: string
+         *       400:
+         *         description: Bad Request, invalid input data
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 message:
+         *                   type: string
+         *       401:
+         *         description: Unauthorized, invalid token
+         *       500:
+         *         description: Internal Server Error
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 message:
+         *                   type: string
+         */
         // Update a visitor (requires a valid JWT)
 app.patch('/visitors/:id', verifyToken, async (req, res) => {
     try {
@@ -222,6 +549,43 @@ app.patch('/visitors/:id', verifyToken, async (req, res) => {
     }
   });
   
+
+  /**
+   * @swagger
+   * /visitors/{id}:
+   *   delete:
+   *     description: Delete a visitor
+   *     security:
+   *       - BearerAuth: []
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         description: ID of the visitor to be deleted
+   *         required: true
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: Visitor deleted successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *       401:
+   *         description: Unauthorized, invalid token
+   *       500:
+   *         description: Internal Server Error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   */
   // Delete a visitor (requires a valid JWT)
   app.delete('/visitors/:id', verifyToken, async (req, res) => {
     try {
