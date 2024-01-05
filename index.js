@@ -304,22 +304,8 @@ app.post('/register', async (req, res) => {
  *                   type: string
  *       400:
  *         description: Bad Request, security personnel already exists or invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       500:
  *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  */
 // Register a new security
 app.post('/register-security', async (req, res) => {
@@ -379,22 +365,8 @@ app.post('/register-security', async (req, res) => {
          *                 // Define the properties of the access information here
          *       404:
          *         description: Access information not found
-         *         content:
-         *           application/json:
-         *             schema:
-         *               type: object
-         *               properties:
-         *                 message:
-         *                   type: string
          *       500:
          *         description: Internal Server Error
-         *         content:
-         *           application/json:
-         *             schema:
-         *               type: object
-         *               properties:
-         *                 message:
-         *                   type: string
          */
         // View access info for a visitor
         app.get('/visitors/:name/:email/access', async (req, res) => {
@@ -481,24 +453,10 @@ app.post('/register-security', async (req, res) => {
          *                   type: string
          *       400:
          *         description: Bad Request, invalid input data
-         *         content:
-         *           application/json:
-         *             schema:
-         *               type: object
-         *               properties:
-         *                 message:
-         *                   type: string
          *       401:
          *         description: Unauthorized, invalid token
          *       500:
          *         description: Internal Server Error
-         *         content:
-         *           application/json:
-         *             schema:
-         *               type: object
-         *               properties:
-         *                 message:
-         *                   type: string
          */
         // Update a visitor (requires a valid JWT)
 app.patch('/visitors/:id', verifyToken, async (req, res) => {
@@ -545,13 +503,6 @@ app.patch('/visitors/:id', verifyToken, async (req, res) => {
    *         description: Unauthorized, invalid token
    *       500:
    *         description: Internal Server Error
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: object
-   *               properties:
-   *                 message:
-   *                   type: string
    */
   // Delete a visitor (requires a valid JWT)
   app.delete('/visitors/:id', verifyToken, async (req, res) => {
