@@ -186,13 +186,6 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
  *                   type: string
  *       400:
  *         description: Bad Request, invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       401:
  *         description: Unauthorized, invalid token
  *       500:
@@ -247,21 +240,8 @@ app.post('/visitors', verifyToken, async (req, res) => {
  *                   type: string
  *       400:
  *         description: Bad Request, user already exists or invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       500:
  *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
  */
 // Register a new user
 app.post('/register', async (req, res) => {
