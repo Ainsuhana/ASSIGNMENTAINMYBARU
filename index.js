@@ -444,21 +444,8 @@ app.post('/register-security', async (req, res) => {
          *     responses:
          *       200:
          *         description: Visitors retrieved successfully
-         *         content:
-         *           application/json:
-         *             schema:
-         *               type: array
-         *               items:
-         *                 // Define the properties of a visitor here
          *       500:
          *         description: Internal Server Error
-         *         content:
-         *           application/json:
-         *             schema:
-         *               type: object
-         *               properties:
-         *                 message:
-         *                   type: string
          */
         // Retrieve all visitors
         app.get('/visitors', async (req, res) => {
