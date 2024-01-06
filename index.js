@@ -72,11 +72,10 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
  *     security:
  *       - BearerAuth: []
  *     parameters:
- *       - name: user
+ *       - name: For user
  *         in: body
- *         description: User (name and password)
+ *         description: User (Please input your name and password)
  *         required: true
- *         schema:
  *           type: object
  *           properties:
  *             name:
