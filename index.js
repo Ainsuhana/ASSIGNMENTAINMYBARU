@@ -487,17 +487,18 @@ app.patch('/visitors/:id', verifyToken, async (req, res) => {
   });
   
 
-  /**
+    /**
    * @swagger
-   * /visitors/{name}:
+   * /visitors/{id}:
    *   delete:
-   *     description: Delete a visitor
+   *     summary: Delete a visitor
+   *     description: Delete a visitor by ID (requires a valid JWT)
    *     security:
    *       - BearerAuth: []
    *     parameters:
-   *       - name: Visitor name
+   *       - name: id
    *         in: path
-   *         description: Name of the visitor to be deleted
+   *         description: ID of the visitor to be deleted
    *         required: true
    *         schema:
    *           type: string
