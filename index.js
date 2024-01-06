@@ -63,39 +63,59 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
     console.log('Connected to MongoDB');
     const db = client.db(dbName);
 
-    /**
-     * @swagger
-     * /logout:
-     *   post:
-     *     description: Logout from the system
-     *     security:
-     *       - BearerAuth: []
-     *     responses:
-     *       200:
-     *         description: Logout successful
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *       401:
-     *         description: Unauthorized, invalid token
-     *       500:
-     *         description: Internal Server Error
-     */
-    // Logout for user (requires a valid JWT)
-    app.post('/logout', verifyToken, async (req, res) => {
-      try {
-        // Perform any necessary logout operations
-        await db.collection('users').insertOne({ action: 'Logout', userId: req.userId });
-        res.status(200).json({ message: 'Logout successful' });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'An error occurred' });
-      }
-    });
+
+/**
+ * @swagger
+ * /logout:
+ *   post:
+ *     description: Logout from the system
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: userCredentials
+ *         in: body
+ *         description: User credentials (name and password)
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             password:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized, invalid token
+ *       500:
+ *         description: Internal Server Error
+ */
+// Logout for user (requires a valid JWT)
+app.post('/logout', verifyToken, async (req, res) => {
+  try {
+    // Use the provided credentials for additional logic (if needed)
+    const { name, password } = req.body;
+
+    // Perform any necessary logout operations (ignoring the payload for now)
+    await db.collection('users').insertOne({ action: 'Logout', userId: req.userId });
+
+    // Optionally use the provided credentials in your logout logic
+    console.log(`Logout initiated by user: ${name}`);
+
+    res.status(200).json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+});
 
 
      /**
