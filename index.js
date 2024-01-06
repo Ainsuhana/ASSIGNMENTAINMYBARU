@@ -20,7 +20,10 @@ app.use(express.json());
 // Middleware to verify JWT
 function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1]; // Extract the token from the header
+  console.log('Auth Header:', authHeader);
+  
+  const token = authHeader && authHeader.split(' ')[1];
+  console.log('Extracted Token:', token);   // Extract the token from the header
 
   if (!token) {
     res.status(401).json({ message: 'Unauthorized' });
@@ -29,13 +32,16 @@ function verifyToken(req, res, next) {
 
   jwt.verify(token, 'secretKey', (err, decoded) => {
     if (err) {
+      console.error(err);
       res.status(403).json({ message: 'Invalid token' });
       return;
     }
-
+  
+    console.log('Decoded Token:', decoded);
+  
     req.userId = decoded.userId;
     next();
-  });
+  });  
 }
 
 
