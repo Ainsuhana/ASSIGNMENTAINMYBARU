@@ -76,6 +76,7 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
  *         in: body
  *         description: User (Please input your name and password)
  *         required: true
+ *         schema:
  *           type: object
  *           properties:
  *             name:
