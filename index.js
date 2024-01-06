@@ -52,7 +52,7 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'AINMY VMS API',
+            title: 'VISITSPHERE VISITOR MANAGEMENT SYSTEM',
             version: '1.0.0',
         },
     },
