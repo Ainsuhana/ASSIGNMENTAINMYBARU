@@ -72,7 +72,7 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
 
 /**
  * @swagger
- * /LOGOUT FOR USER:
+ * /logout:
  *   post:
  *     description: Logout from the system
  *     security:
@@ -119,7 +119,7 @@ app.post('/logout', verifyToken, async (req, res) => {
 
      /**
      * @swagger
-     * /LOGIN FOR USER:
+     * /login:
      *   post:
      *     description: Login to the system
      *     requestBody:
@@ -174,7 +174,7 @@ app.post('/logout', verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /CREATE A NEW VISITORS:
+ * /visitors:
  *   post:
  *     description: Create a new visitor
  *     security:
@@ -221,7 +221,7 @@ app.post('/visitors', verifyToken, async (req, res) => {
   
 /**
  * @swagger
- * /REGISTER A NEW USER:
+ * /register:
  *   post:
  *     description: Register a new user
  *     requestBody:
@@ -285,7 +285,7 @@ app.post('/register', async (req, res) => {
 
 /**
  * @swagger
- * /REGISTER A NEW SECURITY:
+ * /register-security:
  *   post:
  *     description: Register a new security personnel
  *     requestBody:
@@ -349,7 +349,7 @@ app.post('/register-security', async (req, res) => {
 
         /**
          * @swagger
-         * /VIEW ACCESS INFO FOR A VISITOR:
+         * /visitors/{name}/{email}/access:
          *   get:
          *     description: Retrieve access information for a visitor
          *     parameters:
@@ -402,7 +402,7 @@ app.post('/register-security', async (req, res) => {
 
         /**
          * @swagger
-         * /RETRIEVE ALL VISITORS:
+         * /visitors:
          *   get:
          *     description: Retrieve all visitors
          *     responses:
@@ -427,7 +427,7 @@ app.post('/register-security', async (req, res) => {
 
         /**
          * @swagger
-         * /UPDATE A VISITORS:
+         * /visitors/{id}:
          *   patch:
          *     description: Update a visitor
          *     security:
@@ -487,18 +487,17 @@ app.patch('/visitors/:id', verifyToken, async (req, res) => {
   });
   
 
-    /**
+  /**
    * @swagger
-   * /DELETE A VISITORS:
+   * /visitors/{name}:
    *   delete:
-   *     summary: Delete a visitor
-   *     description: Delete a visitor by ID (requires a valid JWT)
+   *     description: Delete a visitor
    *     security:
    *       - BearerAuth: []
    *     parameters:
-   *       - name: id
+   *       - name: Visitor name
    *         in: path
-   *         description: ID of the visitor to be deleted
+   *         description: Name of the visitor to be deleted
    *         required: true
    *         schema:
    *           type: string
