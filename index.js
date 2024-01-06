@@ -72,61 +72,44 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
 
 /**
  * @swagger
- * /REGISTER A NEW USER:
+ * /LOGOUT FOR USER:
  *   post:
- *     description: Register a new user
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *               address:
- *                 type: string
+ *     description: Logout from the system
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: For user
+ *         in: body
+ *         description: User (Please input your name and password)
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             password:
+ *               type: string
  *     responses:
- *       201:
- *         description: User registered successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *       400:
- *         description: Bad Request, user already exists or invalid input data
+ *       200:
+ *         description: Logout successful
+ *       401:
+ *         description: Unauthorized, invalid token
  *       500:
  *         description: Internal Server Error
  */
-// Register a new user
-app.post('/register', async (req, res) => {
+// Logout for user (requires a valid JWT)
+app.post('/logout', verifyToken, async (req, res) => {
   try {
-    const { username, password, email, address } = req.body;
+    // Use the provided credentials for additional logic (if needed)
+    const { name, password } = req.body;
 
-    // Check if the user already exists
-    const existingUser = await db.collection('users').findOne({ username });
-    if (existingUser) {
-      res.status(409).json({ message: 'User already exists' });
-      return;
-    }
+    // Perform any necessary logout operations (ignoring the payload for now)
+    await db.collection('users').insertOne({ action: 'Logout', userId: req.userId });
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Optionally use the provided credentials in your logout logic
+    console.log(`Logout initiated by user: ${name}`);
 
-    // Insert the user into the "users" collection
-    const result = await db
-      .collection('users')
-      .insertOne({ username, password: hashedPassword, email, address });
-
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'An error occurred' });
@@ -191,50 +174,114 @@ app.post('/register', async (req, res) => {
 
 /**
  * @swagger
- * /LOGOUT FOR USER:
+ * /CREATE A NEW VISITORS:
  *   post:
- *     description: Logout from the system
+ *     description: Create a new visitor
  *     security:
  *       - BearerAuth: []
- *     parameters:
- *       - name: For user
- *         in: body
- *         description: User (Please input your name and password)
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             password:
- *               type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               purpose:
+ *                 type: string
  *     responses:
- *       200:
- *         description: Logout successful
+ *       201:
+ *         description: Visitor created successfully
+ *       400:
+ *         description: Bad Request, invalid input data
  *       401:
  *         description: Unauthorized, invalid token
  *       500:
  *         description: Internal Server Error
  */
-// Logout for user (requires a valid JWT)
-app.post('/logout', verifyToken, async (req, res) => {
-  try {
-    // Use the provided credentials for additional logic (if needed)
-    const { name, password } = req.body;
-
-    // Perform any necessary logout operations (ignoring the payload for now)
-    await db.collection('users').insertOne({ action: 'Logout', userId: req.userId });
-
-    // Optionally use the provided credentials in your logout logic
-    console.log(`Logout initiated by user: ${name}`);
-
-    res.status(200).json({ message: 'Logout successful' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'An error occurred' });
-  }
-});
-
+// Create a new visitor (requires a valid JWT)
+app.post('/visitors', verifyToken, async (req, res) => {
+    try {
+      const { name, email, purpose } = req.body;
+  
+      // Insert into "visitors" collection
+      await db.collection('visitors').insertMany([{ name, email, purpose }]);
+  
+      res.status(201).json({ message: 'Visitor created successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred' });
+    }
+  });
+  
+  
+/**
+ * @swagger
+ * /REGISTER A NEW USER:
+ *   post:
+ *     description: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               address:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Bad Request, user already exists or invalid input data
+ *       500:
+ *         description: Internal Server Error
+ */
+// Register a new user
+app.post('/register', async (req, res) => {
+    try {
+      const { username, password, email, address } = req.body;
+  
+      // Check if the user already exists
+      const existingUser = await db.collection('users').findOne({ username });
+      if (existingUser) {
+        res.status(409).json({ message: 'User already exists' });
+        return;
+      }
+  
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Insert the user into the "users" collection
+      const result = await db
+        .collection('users')
+        .insertOne({ username, password: hashedPassword, email, address });
+  
+      res.status(201).json({ message: 'User registered successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred' });
+    }
+  });
+  
 
 /**
  * @swagger
@@ -298,53 +345,6 @@ app.post('/register-security', async (req, res) => {
     res.status(500).json({ message: 'An error occurred' });
   }
 });
-
-
-/**
- * @swagger
- * /CREATE A NEW VISITORS:
- *   post:
- *     description: Create a new visitor
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *               purpose:
- *                 type: string
- *     responses:
- *       201:
- *         description: Visitor created successfully
- *       400:
- *         description: Bad Request, invalid input data
- *       401:
- *         description: Unauthorized, invalid token
- *       500:
- *         description: Internal Server Error
- */
-// Create a new visitor (requires a valid JWT)
-app.post('/visitors', verifyToken, async (req, res) => {
-    try {
-      const { name, email, purpose } = req.body;
-  
-      // Insert into "visitors" collection
-      await db.collection('visitors').insertMany([{ name, email, purpose }]);
-  
-      res.status(201).json({ message: 'Visitor created successfully' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'An error occurred' });
-    }
-  });
 
 
         /**
@@ -491,6 +491,7 @@ app.patch('/visitors/:id', verifyToken, async (req, res) => {
    * @swagger
    * /DELETE A VISITORS:
    *   delete:
+   *     summary: Delete a visitor
    *     description: Delete a visitor by ID (requires a valid JWT)
    *     security:
    *       - BearerAuth: []
