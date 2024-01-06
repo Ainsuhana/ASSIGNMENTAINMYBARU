@@ -72,7 +72,7 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
 
 /**
  * @swagger
- * /logout:
+ * /Logout:
  *   post:
  *     description: Logout from the system
  *     security:
@@ -119,7 +119,7 @@ app.post('/logout', verifyToken, async (req, res) => {
 
      /**
      * @swagger
-     * /login:
+     * /Login for user:
      *   post:
      *     description: Login to the system
      *     requestBody:
