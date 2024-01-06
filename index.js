@@ -177,13 +177,6 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
  *     responses:
  *       201:
  *         description: Visitor created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       400:
  *         description: Bad Request, invalid input data
  *       401:
