@@ -70,6 +70,53 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
     const db = client.db(dbName);
 
 
+/**
+ * @swagger
+ * /Logout:
+ *   post:
+ *     description: Logout from the system
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: For user
+ *         in: body
+ *         description: User (Please input your name and password)
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             password:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *       401:
+ *         description: Unauthorized, invalid token
+ *       500:
+ *         description: Internal Server Error
+ */
+// Logout for user (requires a valid JWT)
+app.post('/logout', verifyToken, async (req, res) => {
+  try {
+    // Use the provided credentials for additional logic (if needed)
+    const { name, password } = req.body;
+
+    // Perform any necessary logout operations (ignoring the payload for now)
+    await db.collection('users').insertOne({ action: 'Logout', userId: req.userId });
+
+    // Optionally use the provided credentials in your logout logic
+    console.log(`Logout initiated by user: ${name}`);
+
+    res.status(200).json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+});
+
+
      /**
      * @swagger
      * /Login:
@@ -123,53 +170,6 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
         res.status(500).json({ message: 'An error occurred' });
       }
     });
-
-
-/**
- * @swagger
- * /Logout:
- *   post:
- *     description: Logout from the system
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - name: For user
- *         in: body
- *         description: User (Please input your name and password)
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             password:
- *               type: string
- *     responses:
- *       200:
- *         description: Logout successful
- *       401:
- *         description: Unauthorized, invalid token
- *       500:
- *         description: Internal Server Error
- */
-// Logout for user (requires a valid JWT)
-app.post('/logout', verifyToken, async (req, res) => {
-  try {
-    // Use the provided credentials for additional logic (if needed)
-    const { name, password } = req.body;
-
-    // Perform any necessary logout operations (ignoring the payload for now)
-    await db.collection('users').insertOne({ action: 'Logout', userId: req.userId });
-
-    // Optionally use the provided credentials in your logout logic
-    console.log(`Logout initiated by user: ${name}`);
-
-    res.status(200).json({ message: 'Logout successful' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'An error occurred' });
-  }
-});
 
 
 /**
