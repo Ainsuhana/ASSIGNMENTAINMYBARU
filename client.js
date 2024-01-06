@@ -17,11 +17,15 @@ async function adminLogin(username, password) {
 }
 
 // Function to perform administrator logout
-async function adminLogout(token) {
+async function adminLogout(token, username, password) {
   try {
-    const response = await axios.post(`${baseURL}/admin/logout`, null, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axios.post(
+      `${baseURL}/admin/logout`,
+      { username, password },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error('Error in admin logout:', error.response.data);
@@ -43,7 +47,7 @@ adminLogin(adminUsername, adminPassword)
     const adminToken = loginResponse.token;
 
     // Perform admin logout
-    return adminLogout(adminToken);
+    return adminLogout(adminToken, adminUsername, adminPassword);
   })
   .then((logoutResponse) => {
     console.log('Admin Logout Response:', logoutResponse);

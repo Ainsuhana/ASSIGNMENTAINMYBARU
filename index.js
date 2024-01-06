@@ -113,6 +113,7 @@ app.post('/admin/login', async (req, res) => {
   }
 });
 
+
 /**
  * @swagger
  * /admin/logout:
@@ -120,23 +121,48 @@ app.post('/admin/login', async (req, res) => {
  *     description: Admin logout from the system
  *     security:
  *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Logout successful
  *       401:
- *         description: Unauthorized, invalid token
+ *         description: Unauthorized, invalid token or credentials
  *       500:
  *         description: Internal Server Error
  */
-// Admin logout (requires a valid JWT)
-app.post('/admin/logout', verifyToken, (req, res) => {
+// Admin logout with username and password (requires a valid JWT)
+app.post('/admin/logout', verifyToken, async (req, res) => {
   try {
-    // Use the provided credentials for additional logic (if needed)
+    const { username, password } = req.body;
 
-    // Optionally use the provided credentials in your logout logic
-    console.log('Admin logout initiated');
+    // You may want to validate the username and password before proceeding
 
-    res.status(200).json({ message: 'Admin logout successful' });
+    // Optionally, you can also check if the provided credentials match the current user's credentials
+    const adminUsername = 'admin';
+    const adminPassword = 'adminpassword';
+
+    if (username === adminUsername && password === adminPassword) {
+      // Use the provided credentials for additional logic (if needed)
+      console.log('Admin logout initiated with username and password');
+
+      // Optionally use the provided credentials in your logout logic
+
+      // Invalidating the token (assuming the token is stored on the client side)
+      // Note: This doesn't directly revoke the token, but the client should stop using it
+      res.status(200).json({ message: 'Admin logout successful' });
+    } else {
+      res.status(401).json({ message: 'Invalid admin credentials' });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'An error occurred' });
