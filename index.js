@@ -119,7 +119,7 @@ app.post('/logout', verifyToken, async (req, res) => {
 
      /**
      * @swagger
-     * /Login for user:
+     * /Login:
      *   post:
      *     description: Login to the system
      *     requestBody:
