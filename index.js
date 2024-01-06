@@ -402,7 +402,7 @@ app.post('/register-security', async (req, res) => {
 
         /**
          * @swagger
-         * /visitors:
+         * /Retrieve all visitors:
          *   get:
          *     description: Retrieve all visitors
          *     responses:
