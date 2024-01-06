@@ -72,9 +72,9 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
  *     security:
  *       - BearerAuth: []
  *     parameters:
- *       - name: userCredentials
+ *       - name: user
  *         in: body
- *         description: User credentials (name and password)
+ *         description: User (name and password)
  *         required: true
  *         schema:
  *           type: object
@@ -86,13 +86,6 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
  *     responses:
  *       200:
  *         description: Logout successful
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       401:
  *         description: Unauthorized, invalid token
  *       500:
