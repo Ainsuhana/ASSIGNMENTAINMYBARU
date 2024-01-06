@@ -72,6 +72,80 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
 
 /**
  * @swagger
+ * /admin/login:
+ *   post:
+ *     description: Admin login to the system
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Reply from the server
+ */
+// Admin login
+app.post('/admin/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    // For simplicity, you can have a predefined admin username and password
+    const adminUsername = 'admin';
+    const adminPassword = 'adminpassword';
+
+    if (username === adminUsername && password === adminPassword) {
+      // Generate a JSON Web Token (JWT) for admin
+      const token = jwt.sign({ userType: 'admin' }, 'adminSecretKey');
+
+      res.status(200).json({ message: 'Admin login successful', token });
+    } else {
+      res.status(401).json({ message: 'Invalid admin credentials' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+});
+
+/**
+ * @swagger
+ * /admin/logout:
+ *   post:
+ *     description: Admin logout from the system
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *       401:
+ *         description: Unauthorized, invalid token
+ *       500:
+ *         description: Internal Server Error
+ */
+// Admin logout (requires a valid JWT)
+app.post('/admin/logout', verifyToken, (req, res) => {
+  try {
+    // Use the provided credentials for additional logic (if needed)
+
+    // Optionally use the provided credentials in your logout logic
+    console.log('Admin logout initiated');
+
+    res.status(200).json({ message: 'Admin logout successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+});
+
+
+/**
+ * @swagger
  * /Logout:
  *   post:
  *     description: Logout from the system
