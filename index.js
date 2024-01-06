@@ -72,7 +72,7 @@ MongoClient.connect(url, /*{ useUnifiedTopology: true }*/)
 
 /**
  * @swagger
- * /logout:
+ * /LOGOUT FOR USER:
  *   post:
  *     description: Logout from the system
  *     security:
@@ -119,7 +119,7 @@ app.post('/logout', verifyToken, async (req, res) => {
 
      /**
      * @swagger
-     * /login:
+     * /LOGIN FOR USER:
      *   post:
      *     description: Login to the system
      *     requestBody:
@@ -174,7 +174,7 @@ app.post('/logout', verifyToken, async (req, res) => {
 
 /**
  * @swagger
- * /visitors:
+ * /CREATE A NEW VISITORS:
  *   post:
  *     description: Create a new visitor
  *     security:
@@ -221,7 +221,7 @@ app.post('/visitors', verifyToken, async (req, res) => {
   
 /**
  * @swagger
- * /register:
+ * /REGISTER A NEW USER:
  *   post:
  *     description: Register a new user
  *     requestBody:
@@ -285,7 +285,7 @@ app.post('/register', async (req, res) => {
 
 /**
  * @swagger
- * /register-security:
+ * /REGISTER A NEW SECURITY:
  *   post:
  *     description: Register a new security personnel
  *     requestBody:
@@ -349,7 +349,7 @@ app.post('/register-security', async (req, res) => {
 
         /**
          * @swagger
-         * /visitors/{name}/{email}/access:
+         * /VIEW ACCESS INFO FOR A VISITOR:
          *   get:
          *     description: Retrieve access information for a visitor
          *     parameters:
@@ -402,7 +402,7 @@ app.post('/register-security', async (req, res) => {
 
         /**
          * @swagger
-         * /Retrieve all visitors:
+         * /RETRIEVE ALL VISITORS:
          *   get:
          *     description: Retrieve all visitors
          *     responses:
@@ -427,7 +427,7 @@ app.post('/register-security', async (req, res) => {
 
         /**
          * @swagger
-         * /visitors/{id}:
+         * /UPDATE A VISITORS:
          *   patch:
          *     description: Update a visitor
          *     security:
@@ -489,7 +489,7 @@ app.patch('/visitors/:id', verifyToken, async (req, res) => {
 
     /**
    * @swagger
-   * /visitors/{id}:
+   * /DELETE A VISITORS:
    *   delete:
    *     summary: Delete a visitor
    *     description: Delete a visitor by ID (requires a valid JWT)
