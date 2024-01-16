@@ -46,7 +46,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/visitors
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDliOTA0NDUyYjViOWU0MTk2YWU3ZTgiLCJpYXQiOjE2ODgxNTMyNDN9.xlx0lJ_GVHr4e7LcNjkDU0juHiZzCEcEAPEpVeEfC_w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NThkMTE0YjAwNmE5ZDk1NGRhMWJjODMiLCJpYXQiOjE3MDU0MzQ2NzR9.VOwvxoy8EplVgLTkm8OPNsAOGZdQvMIht1ndN9oMSZI
 
 {
   "name": "ain",
@@ -90,7 +90,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDlmM
 ###
 DELETE http://localhost:3000/visitors/123
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDlmMzNkZTVkZjYwMTg4ZDZjZjE5NmUiLCJpYXQiOjE2ODgxNTU0OTJ9.15CV2dXkrIvOB5QIoXFDOTy9sXRBHCMtXPPtINqeESY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NThkMTE0YjAwNmE5ZDk1NGRhMWJjODMiLCJpYXQiOjE3MDU0MzQ2NzR9.VOwvxoy8EplVgLTkm8OPNsAOGZdQvMIht1ndN9oMSZI
 
 {
   "name": "ain",
@@ -105,4 +105,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDlmM
 ###
 POST http://localhost:3000/logout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDlmMzNkZTVkZjYwMTg4ZDZjZjE5NmUiLCJpYXQiOjE2ODgxNTU0OTJ9.15CV2dXkrIvOB5QIoXFDOTy9sXRBHCMtXPPtINqeESY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NThkMTE0YjAwNmE5ZDk1NGRhMWJjODMiLCJpYXQiOjE3MDU0MzQ2NzR9.VOwvxoy8EplVgLTkm8OPNsAOGZdQvMIht1ndN9oMSZI
