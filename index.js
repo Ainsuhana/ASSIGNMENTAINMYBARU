@@ -525,52 +525,52 @@ app.post('/register-security', async (req, res) => {
         });
     
 
-        /**
-         * @swagger
-         * /visitors/{id}:
-         *   patch:
-         *     description: Update a visitor
-         *     security:
-         *       - BearerAuth: []
-         *     parameters:
-         *       - name: id
-         *         in: path
-         *         description: ID of the visitor to be updated
-         *         required: true
-         *         schema:
-         *           type: string
-         *     requestBody:
-         *       required: true
-         *       content:
-         *         application/json:
-         *           schema:
-         *             type: object
-         *             properties:
-         *               name:
-         *                 type: string
-         *               email:
-         *                 type: string
-         *                 format: email
-         *               purpose:
-         *                 type: string
-         *     responses:
-         *       200:
-         *         description: Visitor updated successfully
-         *         content:
-         *           application/json:
-         *             schema:
-         *               type: object
-         *               properties:
-         *                 message:
-         *                   type: string
-         *       400:
-         *         description: Bad Request, invalid input data
-         *       401:
-         *         description: Unauthorized, invalid token
-         *       500:
-         *         description: Internal Server Error
-         */
-        // Update a visitor (requires a valid JWT)
+/**
+ * @swagger
+ * /visitors/{id}:
+ *   patch:
+ *     description: Update a visitor
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the visitor to be updated
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               purpose:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Visitor updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Bad Request, invalid input data
+ *       401:
+ *         description: Unauthorized, invalid token
+ *       500:
+ *         description: Internal Server Error
+ */
+// Update a visitor (requires a valid JWT)
 app.patch('/visitors/:id', verifyToken, async (req, res) => {
     try {
       const { id } = req.params;
