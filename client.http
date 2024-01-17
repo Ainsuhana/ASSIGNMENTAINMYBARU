@@ -1,4 +1,18 @@
 ###
+### Login for admin
+###
+
+POST http://localhost:3000/admin/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "adminpassword"
+}
+
+
+
+###
 ### Register for a new user
 ###
 POST http://localhost:3000/register
@@ -10,6 +24,8 @@ Content-Type: application/json
   "email": "wanno@example.com",
   "address": "123 Main kampong"
 }
+
+
 
 ###
 ### Register for security
