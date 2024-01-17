@@ -17,6 +17,7 @@
     "mongo": "^0.1.0",
     "mongodb": "^6.3.0",
     "package.json": "^0.0.0",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   }
 }
