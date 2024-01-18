@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 
 
 // MongoDB connection URL
-const url = 'mongodb+srv://AINMY:AINMY2004@cluster0.89neimr.mongodb.net/?retryWrites=true&w=majority';
+const url = 'mongodb+srv://AINMY:AINMY2004@cluster0.89neimr.mongodb.net/';
 const dbName = 'VisitorManagementSystem'; // database name
 
 
